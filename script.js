@@ -31,22 +31,51 @@ document.addEventListener('DOMContentLoaded', () => {
     const bookSlides = document.querySelectorAll('.book-slide');
     let currentBookSlide = 0;
     const bookInterval = 2000; // 2 seconds
+    let bookSliderInterval = null;
+
+    // Initialize slider position
+    function initBookSlider() {
+        if (window.innerWidth <= 768) {
+            currentBookSlide = 0;
+            bookSlider.style.transform = `translateX(0)`;
+        } else {
+            bookSlider.style.transform = 'none';
+        }
+    }
 
     function nextBookSlide() {
-        if (window.innerWidth <= 768) {
+        if (window.innerWidth <= 768 && bookSlides.length > 0) {
             currentBookSlide = (currentBookSlide + 1) % bookSlides.length;
-            bookSlider.style.transform = `translateX(-${currentBookSlide * 100}%)`;
+            // 슬라이더 너비가 500%이고 각 슬라이드가 20%이므로, 컨테이너 기준으로 20%씩 이동
+            const slideWidth = 100 / bookSlides.length; // 20% per slide
+            bookSlider.style.transform = `translateX(-${currentBookSlide * slideWidth}%)`;
         } else {
             bookSlider.style.transform = 'none'; // Reset on desktop
         }
     }
 
-    setInterval(nextBookSlide, bookInterval);
+    // Initialize and start slider
+    initBookSlider();
+    
+    // Clear any existing interval before setting a new one
+    if (bookSliderInterval) {
+        clearInterval(bookSliderInterval);
+    }
+    bookSliderInterval = setInterval(nextBookSlide, bookInterval);
 
     // Reset slider on resize
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
             bookSlider.style.transform = 'none';
+            if (bookSliderInterval) {
+                clearInterval(bookSliderInterval);
+                bookSliderInterval = null;
+            }
+        } else {
+            initBookSlider();
+            if (!bookSliderInterval) {
+                bookSliderInterval = setInterval(nextBookSlide, bookInterval);
+            }
         }
     });
 

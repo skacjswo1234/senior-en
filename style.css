@@ -852,18 +852,31 @@ footer {
     .book-slider-container {
         overflow: hidden;
         width: 100%;
+        position: relative;
     }
 
     .book-slider {
+        display: flex;
         flex-wrap: nowrap;
         gap: 0;
         transition: transform 0.5s ease-in-out;
+        will-change: transform;
+        width: 500%; /* 5개 슬라이드 × 100% */
     }
 
     .book-slide {
-        min-width: 100%;
+        width: 20%; /* 100% / 5개 = 20% */
+        min-width: 20%;
+        flex-shrink: 0;
         display: flex;
         justify-content: center;
+        align-items: center;
+    }
+    
+    .book-slide img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
     }
 
     .contact-form {
