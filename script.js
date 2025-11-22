@@ -3,13 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSlide = 0;
     const slideInterval = 3500; // 3.5 seconds
 
-    function nextSlide() {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }
+    // 슬라이드가 하나 이상일 때만 자동 전환
+    if (slides.length > 1) {
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
 
-    setInterval(nextSlide, slideInterval);
+        setInterval(nextSlide, slideInterval);
+    }
 
     // Mobile Menu Logic
     const menuBtn = document.querySelector('.mobile-menu-btn');
