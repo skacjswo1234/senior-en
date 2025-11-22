@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 페이지 - 조선시니어학당</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #1a1f3a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .header {
+            background-color: #252b4d;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .header h1 {
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+        .logout-btn {
+            padding: 0.7rem 1.5rem;
+            background-color: #6b8fd4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .logout-btn:hover {
+            background-color: #4a6ba8;
+        }
+        .inquiries-table {
+            width: 100%;
+            background-color: #252b4d;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background-color: #1a1f3a;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        th {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        td {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+        tr:hover {
+            background-color: rgba(107, 143, 212, 0.1);
+        }
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: #b0b0b0;
+        }
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #b0b0b0;
+        }
+        .detail-btn {
+            padding: 0.5rem 1rem;
+            background-color: #6b8fd4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        .detail-btn:hover {
+            background-color: #4a6ba8;
+        }
+        .detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .modal-content {
+            background-color: #252b4d;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .modal-header h2 {
+            color: #ffffff;
+            font-size: 1.5rem;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: #b0b0b0;
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s;
+        }
+        .close-btn:hover {
+            color: #ffffff;
+        }
+        .detail-item {
+            margin-bottom: 1.2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .detail-item label {
+            color: #6b8fd4;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .detail-item span {
+            color: #e0e0e0;
+            font-size: 1rem;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background-color: #252b4d;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .stat-card h3 {
+            color: #6b8fd4;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            table {
+                font-size: 0.8rem;
+            }
+            th, td {
+                padding: 0.7rem 0.5rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>무료 강의 신청 관리</h1>
+            <a href="/login.html" class="logout-btn" id="logoutBtn">로그아웃</a>
+        </div>
+
+        <div class="stats" id="statsContainer">
+            <div class="stat-card">
+                <h3 id="totalCount">-</h3>
+                <p>전체 신청</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="todayCount">-</h3>
+                <p>오늘 신청</p>
+            </div>
+        </div>
+
+        <div id="inquiriesContainer">
+            <div class="loading">로딩 중...</div>
+        </div>
+    </div>
+
+    <!-- 상세 보기 모달 -->
+    <div id="detailModal" class="detail-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>신청 상세 정보</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div id="detailContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // 문의 내역 로드
+        async function loadInquiries() {
+            const container = document.getElementById('inquiriesContainer');
+            
+            try {
+                const response = await fetch('/api/inquiries');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const inquiries = data.data;
+                    
+                    // 통계 업데이트
+                    document.getElementById('totalCount').textContent = inquiries.length;
+                    const today = new Date().toISOString().split('T')[0];
+                    const todayInquiries = inquiries.filter(inq => {
+                        const inqDate = new Date(inq.created_at).toISOString().split('T')[0];
+                        return inqDate === today;
+                    });
+                    document.getElementById('todayCount').textContent = todayInquiries.length;
+                    
+                    if (inquiries.length === 0) {
+                        container.innerHTML = '<div class="no-data">신청 내역이 없습니다.</div>';
+                    } else {
+                        let html = '<div class="inquiries-table"><table><thead><tr><th>번호</th><th>이름</th><th>전화번호</th><th>영어수준</th><th>제2외국어</th><th>연령대</th><th>지역</th><th>신청일</th><th>상세</th></tr></thead><tbody>';
+                        
+                        inquiries.forEach(inquiry => {
+                            const date = new Date(inquiry.created_at).toLocaleDateString('ko-KR', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            });
+                            html += `<tr>
+                                <td>${inquiry.id}</td>
+                                <td>${inquiry.name}</td>
+                                <td>${inquiry.phone}</td>
+                                <td>${inquiry.english_level || '-'}</td>
+                                <td>${inquiry.second_lang || '-'}</td>
+                                <td>${inquiry.age || '-'}</td>
+                                <td>${inquiry.location || '-'}</td>
+                                <td>${date}</td>
+                                <td><button class="detail-btn" onclick="showDetail(${inquiry.id})">보기</button></td>
+                            </tr>`;
+                        });
+                        
+                        html += '</tbody></table></div>';
+                        container.innerHTML = html;
+                    }
+                } else {
+                    container.innerHTML = '<div class="no-data">문의 내역을 불러올 수 없습니다.</div>';
+                }
+            } catch (error) {
+                console.error('Error loading inquiries:', error);
+                container.innerHTML = '<div class="no-data">오류가 발생했습니다.</div>';
+            }
+        }
+
+        // 상세 보기
+        async function showDetail(id) {
+            try {
+                const response = await fetch(`/api/inquiries?id=${id}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const inquiry = data.data;
+                    const date = new Date(inquiry.created_at).toLocaleString('ko-KR', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    document.getElementById('detailContent').innerHTML = `
+                        <div class="detail-item">
+                            <label>번호</label>
+                            <span>${inquiry.id}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>이름</label>
+                            <span>${inquiry.name}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>전화번호</label>
+                            <span>${inquiry.phone}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>영어 회화 수준</label>
+                            <span>${inquiry.english_level || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>제2외국어</label>
+                            <span>${inquiry.second_lang || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>연령대</label>
+                            <span>${inquiry.age || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>거주지역</label>
+                            <span>${inquiry.location || '-'}</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>신청일시</label>
+                            <span>${date}</span>
+                        </div>
+                    `;
+                    
+                    document.getElementById('detailModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error loading detail:', error);
+                alert('상세 정보를 불러오는 중 오류가 발생했습니다.');
+            }
+        }
+
+        // 모달 닫기
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('detailModal').style.display = 'none';
+        });
+
+        document.getElementById('detailModal').addEventListener('click', (e) => {
+            if (e.target.id === 'detailModal') {
+                document.getElementById('detailModal').style.display = 'none';
+            }
+        });
+
+        // 로그아웃
+        document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.href = '/login.html';
+        });
+
+        // 페이지 로드 시 문의 내역 로드
+        window.addEventListener('load', () => {
+            loadInquiries();
+        });
+    </script>
+</body>
+</html>
+

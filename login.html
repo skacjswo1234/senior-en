@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 로그인 - 조선시니어학당</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #1a1f3a;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            max-width: 400px;
+            width: 90%;
+            background-color: #252b4d;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .login-container h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #b0b0b0;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #6b8fd4;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #6b8fd4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #4a6ba8;
+        }
+        .submit-btn:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        .error-message {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #e74c3c;
+        }
+        .success-message {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+            border-left: 4px solid #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>관리자 로그인</h2>
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" required autocomplete="current-password" autofocus>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">로그인</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            const submitBtn = document.getElementById('submitBtn');
+
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = '로그인 중...';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    // 로그인 성공 시 바로 대시보드로 이동
+                    window.location.href = '/admin.html';
+                } else {
+                    errorDiv.textContent = data.message || '비밀번호가 올바르지 않습니다.';
+                    errorDiv.style.display = 'block';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '로그인';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorDiv.textContent = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
+                errorDiv.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = '로그인';
+            }
+        });
+    </script>
+</body>
+</html>
+

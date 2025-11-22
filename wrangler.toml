@@ -1,0 +1,8 @@
+name = "senior-en"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "senior-en-db"
+database_name = "senior-en-db"
+database_id = "5b79ef7c-5934-4a27-9eca-d490cdcd54fd"
+

@@ -142,4 +142,40 @@ document.addEventListener('DOMContentLoaded', () => {
             behavior: 'smooth'
         });
     });
+
+    // Contact Form Submission
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = '처리 중...';
+
+            try {
+                const formData = new FormData(contactForm);
+                const response = await fetch('/api/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('신청이 완료되었습니다! 감사합니다.');
+                    contactForm.reset();
+                } else {
+                    alert(data.message || '오류가 발생했습니다. 다시 시도해주세요.');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    }
 });
