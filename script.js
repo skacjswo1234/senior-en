@@ -164,18 +164,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
 
                 if (data.success) {
-                    alert('신청이 완료되었습니다! 감사합니다.');
+                    showModal('신청 완료', '신청이 완료되었습니다! 감사합니다.', true);
                     contactForm.reset();
                 } else {
-                    alert(data.message || '오류가 발생했습니다. 다시 시도해주세요.');
+                    showModal('오류', data.message || '오류가 발생했습니다. 다시 시도해주세요.', false);
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
-                alert('오류가 발생했습니다. 다시 시도해주세요.');
+                showModal('오류', '오류가 발생했습니다. 다시 시도해주세요.', false);
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
             }
         });
     }
+
+    // 모달 함수
+    function showModal(title, message, isSuccess = true) {
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+        
+        // 성공/실패에 따른 스타일 적용
+        const modalContent = modal.querySelector('.modal-content');
+        if (isSuccess) {
+            modalContent.classList.remove('modal-error');
+            modalContent.classList.add('modal-success');
+        } else {
+            modalContent.classList.remove('modal-success');
+            modalContent.classList.add('modal-error');
+        }
+        
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('modal');
+        modal.style.display = 'none';
+    }
+
+    // 모달 닫기 이벤트
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modalConfirm').addEventListener('click', closeModal);
+    document.getElementById('modal').addEventListener('click', (e) => {
+        if (e.target.id === 'modal') {
+            closeModal();
+        }
+    });
 });
