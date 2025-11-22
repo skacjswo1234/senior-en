@@ -377,16 +377,44 @@
             }
         });
 
+        // 인증 확인
+        function checkAuthentication() {
+            const authenticated = localStorage.getItem('admin_authenticated');
+            const loginTime = localStorage.getItem('admin_login_time');
+            
+            // 인증되지 않았거나 24시간이 지났으면 로그인 페이지로
+            if (!authenticated || !loginTime) {
+                window.location.href = '/login.html';
+                return false;
+            }
+            
+            // 24시간(86400000ms) 체크
+            const now = Date.now();
+            const timeDiff = now - parseInt(loginTime);
+            if (timeDiff > 86400000) {
+                localStorage.removeItem('admin_authenticated');
+                localStorage.removeItem('admin_login_time');
+                window.location.href = '/login.html';
+                return false;
+            }
+            
+            return true;
+        }
+
         // 로그아웃
         document.getElementById('logoutBtn').addEventListener('click', async (e) => {
             e.preventDefault();
+            localStorage.removeItem('admin_authenticated');
+            localStorage.removeItem('admin_login_time');
             await fetch('/api/logout', { method: 'POST' });
             window.location.href = '/login.html';
         });
 
-        // 페이지 로드 시 문의 내역 로드
+        // 페이지 로드 시 인증 확인 후 문의 내역 로드
         window.addEventListener('load', () => {
-            loadInquiries();
+            if (checkAuthentication()) {
+                loadInquiries();
+            }
         });
     </script>
 </body>
