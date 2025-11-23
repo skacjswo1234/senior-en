@@ -21,9 +21,13 @@
         <div class="header-container">
             <nav class="desktop-nav">
                 <ul>
-                    <li><a href="#intro">학당소개</a></li>
+                    <li><a href="#hero">홈</a></li>
                     <li><a href="#travel">여행영어</a></li>
                     <li><a href="#second-lang">제2외국어</a></li>
+                    <li><a href="#beginner">시니어영어왕초보</a></li>
+                    <li><a href="#work">사교/작업영어</a></li>
+                    <li><a href="#mania">영어마니아</a></li>
+                    <li><a href="#instructor">시니어강사반</a></li>
                     <li><a href="#books">교재소개</a></li>
                     <li><a href="#contact">무료 강의 신청</a></li>
                 </ul>
@@ -41,9 +45,13 @@
                 <button class="close-btn">&times;</button>
             </div>
             <ul>
-                <li><a href="#intro" class="mobile-link">학당소개</a></li>
+                <li><a href="#hero" class="mobile-link">홈</a></li>
                 <li><a href="#travel" class="mobile-link">여행영어</a></li>
                 <li><a href="#second-lang" class="mobile-link">제2외국어</a></li>
+                <li><a href="#beginner" class="mobile-link">시니어영어왕초보</a></li>
+                <li><a href="#work" class="mobile-link">사교/작업영어</a></li>
+                <li><a href="#mania" class="mobile-link">영어마니아</a></li>
+                <li><a href="#instructor" class="mobile-link">시니어강사반</a></li>
                 <li><a href="#books" class="mobile-link">교재소개</a></li>
                 <li><a href="#contact" class="mobile-link">무료 강의 신청</a></li>
             </ul>
@@ -51,18 +59,21 @@
     </header>
 
     <main>
-        <section class="hero">
-            <div class="hero-slider">
-                <div class="slide slide-1 active"></div>
+        <section id="hero" class="hero">
+            <div class="hero-text-section">
+                <div class="hero-content fade-in">
+                    <span class="badge">40년 전통</span>
+                    <h2>40~60대 시니어들<br><span class="highlight">영어랑 놀아요!</span></h2>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i> 영어초보자위한 2개월속성 40년전통!!!</li>
+                        <li><i class="fas fa-check-circle"></i> 영어에 한맺힌 것을 풀어드려요 !</li>
+                    </ul>
+                </div>
             </div>
-            <div class="hero-content fade-in">
-                <span class="badge">40년 전통</span>
-                <h2>40~60대 시니어들<br><span class="highlight">영어랑 놀아요!</span></h2>
-                <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> 영어초보자위한 2개월속성 40년전통!!!</li>
-                    <li><i class="fas fa-check-circle"></i> 영어에 한맺힌 것을 풀어드려요 !</li>
-                </ul>
-                <a href="#contact" class="hero-contact-btn">무료 강의 신청</a>
+            <div class="hero-image-section">
+                <div class="hero-slider">
+                    <div class="slide slide-1 active"></div>
+                </div>
             </div>
             <div class="scroll-indicator">
                 <span>Scroll Down</span>
@@ -84,7 +95,7 @@
         </section>
 
         <!-- Section 3: 시니어영어왕초보 -->
-        <section class="content-section section-3">
+        <section id="beginner" class="content-section section-3">
             <div class="container">
                 <div class="text-content reveal-up">
                     <h2>시니어영어<span class="highlight">왕초보</span></h2>
@@ -159,7 +170,7 @@
         </section>
 
         <!-- Section 6: 사교/작업영어 -->
-        <section class="content-section section-6">
+        <section id="work" class="content-section section-6">
             <div class="container">
                 <div class="text-content reveal-right">
                     <h2>사교/작업영어등</h2>
@@ -175,7 +186,7 @@
         </section>
 
         <!-- Section 7: 영어마니아 -->
-        <section class="content-section section-7">
+        <section id="mania" class="content-section section-7">
             <div class="container">
                 <div class="text-content reveal-left">
                     <h2>영어마니아</h2>
@@ -195,7 +206,7 @@
         </section>
 
         <!-- Section 8: 시니어강사반 -->
-        <section class="content-section section-8">
+        <section id="instructor" class="content-section section-8">
             <div class="container">
                 <div class="text-content reveal-up">
                     <h2>시니어강사반</h2>
@@ -290,7 +301,15 @@
         </div>
     </footer>
 
-    <!-- Floating Buttons -->
+    <!-- Floating Apply Button (상단) -->
+    <div class="floating-apply-btn">
+        <a href="#contact" class="float-btn apply-btn" title="무료 강의 신청">
+            <i class="fas fa-bolt"></i>
+            <span>신청</span>
+        </a>
+    </div>
+
+    <!-- Floating Buttons (하단) -->
     <div class="floating-buttons">
         <a href="javascript:void(0)" class="float-btn kakao" title="카카오톡 상담">
             <i class="fas fa-comment"></i>
