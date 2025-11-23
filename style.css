@@ -829,6 +829,23 @@ footer {
     gap: 1.5rem;
 }
 
+.footer-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.sitemap-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.sitemap-link:hover {
+    color: #6b8fd4;
+}
+
 .footer-logo h2 {
     font-size: 2rem;
     color: #fff;
