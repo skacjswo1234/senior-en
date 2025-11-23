@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# 관리자 페이지는 크롤링 제외
+Disallow: /admin.html
+Disallow: /login.html
+Disallow: /functions/
+
+# 사이트맵 위치
+Sitemap: https://chosunsenior.com/sitemap.xml
+
