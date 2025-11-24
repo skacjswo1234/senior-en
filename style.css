@@ -1233,13 +1233,13 @@ footer {
         overflow: hidden;
     }
 
-    /* 모바일 히어로 이미지 섹션 */
+    /* 모바일 히어로 이미지 섹션 - 아래로 이동 */
     .hero-image-section {
         position: absolute;
-        top: 0;
+        top: 20%;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 80%;
         z-index: 1;
     }
 
@@ -1254,10 +1254,10 @@ footer {
     .slide {
         background-size: contain;
         background-repeat: no-repeat;
-        background-position: center center;
+        background-position: center bottom;
     }
 
-    /* 모바일 히어로 텍스트 섹션 - 완전히 새로 작성 */
+    /* 모바일 히어로 텍스트 섹션 - 이미지 위에 오버레이 */
     .hero-text-section {
         position: absolute;
         top: 0;
@@ -1266,14 +1266,20 @@ footer {
         height: 100%;
         z-index: 20;
         background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .hero-text-set {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 250px;
+        left: 190px;
         width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         opacity: 0;
         transition: opacity 1.5s ease-in-out;
         pointer-events: none;
@@ -1285,7 +1291,7 @@ footer {
     }
 
     .hero-text-mobile {
-        display: block !important;
+        display: flex !important;
     }
 
     .hero-text-pc {
@@ -1293,14 +1299,21 @@ footer {
     }
 
     .hero-text-set .hero-content {
-        position: relative;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         width: 90%;
         max-width: 500px;
-        margin: 0 auto;
         padding: 1rem;
         text-align: center;
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 1), 0 0 10px rgba(0, 0, 0, 0.8);
         color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 21;
     }
 
     .hero-text-set .hero-content h2 {
@@ -1316,7 +1329,7 @@ footer {
         font-size: 0.75rem;
         padding: 0.3rem 0.7rem;
         margin-bottom: 0.5rem;
-        background-color: rgba(26, 31, 58, 0.9);
+        background-color: #1a1f3a;
         color: white;
         border-radius: 50px;
     }
@@ -1325,7 +1338,7 @@ footer {
         font-size: 0.9rem;
         line-height: 1.4;
         margin-top: 0.5rem;
-        color: #ffffff;
+        color: #e0e0e0;
     }
 
     .hero-text-set .hero-content .feature-list {
@@ -1349,12 +1362,12 @@ footer {
 
     .hero-text-set:not(.active) .hero-content {
         opacity: 0;
-        transform: scale(0.95);
+        transform: translate(-50%, -50%) scale(0.95);
     }
 
     .hero-text-set.active .hero-content {
         opacity: 1;
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
         transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
     }
 
