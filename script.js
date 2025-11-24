@@ -171,6 +171,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 페이지 로드 시 이미 화면에 보이는 stagger-item에 visible 클래스 추가
+    function initializeVisibleStaggerItems() {
+        const staggerItems = document.querySelectorAll('.stagger-item');
+        staggerItems.forEach(item => {
+            const rect = item.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+            if (isVisible) {
+                item.classList.add('visible');
+            }
+        });
+    }
+    
+    // 페이지 로드 시 실행
+    initializeVisibleStaggerItems();
+    
+    // 스크롤 시에도 확인 (IntersectionObserver가 트리거되지 않는 경우 대비)
+    window.addEventListener('scroll', initializeVisibleStaggerItems);
+
     // Smooth Scroll for Mobile Menu Links
     document.querySelectorAll('.mobile-link').forEach(link => {
         link.addEventListener('click', () => {
