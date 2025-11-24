@@ -1425,12 +1425,12 @@ footer {
         gap: 0;
         transition: transform 0.5s ease-in-out;
         will-change: transform;
-        width: 500%; /* 5개 슬라이드 × 100% */
+        width: 900%; /* 9개 슬라이드 × 100% */
     }
 
     .book-slide {
-        width: 20%; /* 100% / 5개 = 20% */
-        min-width: 20%;
+        width: 11.111%; /* 100% / 9개 = 11.111% */
+        min-width: 11.111%;
         flex-shrink: 0;
         display: flex;
         justify-content: center;

@@ -102,8 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function nextBookSlide() {
         if (window.innerWidth <= 768 && bookSlides.length > 0) {
             currentBookSlide = (currentBookSlide + 1) % bookSlides.length;
-            // 슬라이더 너비가 500%이고 각 슬라이드가 20%이므로, 컨테이너 기준으로 20%씩 이동
-            const slideWidth = 100 / bookSlides.length; // 20% per slide
+            // 슬라이더 너비가 (슬라이드 개수 × 100%)이고 각 슬라이드가 (100 / 슬라이드 개수)%이므로, 컨테이너 기준으로 이동
+            const slideWidth = 100 / bookSlides.length;
             bookSlider.style.transform = `translateX(-${currentBookSlide * slideWidth}%)`;
         } else {
             bookSlider.style.transform = 'none'; // Reset on desktop
