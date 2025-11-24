@@ -1,17 +1,70 @@
 document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
-    const slideInterval = 3500; // 3.5 seconds
+    let currentSet = 0;
+    const slideInterval = 3000; // 3 seconds
 
-    // 슬라이드가 하나 이상일 때만 자동 전환
+    // 화면 크기에 따라 적절한 텍스트 세트 선택
+    function getTextSets() {
+        if (window.innerWidth <= 768) {
+            return document.querySelectorAll('.hero-text-mobile');
+        } else {
+            return document.querySelectorAll('.hero-text-pc');
+        }
+    }
+
+    // 슬라이드와 텍스트 세트가 하나 이상일 때만 자동 전환
     if (slides.length > 1) {
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+        function nextSet() {
+            const textSets = getTextSets();
+            
+            if (textSets.length > 0) {
+                // 현재 세트 비활성화
+                slides[currentSet].classList.remove('active');
+                textSets.forEach(set => {
+                    if (set.classList.contains(`hero-text-set-${currentSet + 1}`)) {
+                        set.classList.remove('active');
+                    }
+                });
+                
+                // 다음 세트로 이동
+                currentSet = (currentSet + 1) % slides.length;
+                
+                // 다음 세트 활성화
+                slides[currentSet].classList.add('active');
+                textSets.forEach(set => {
+                    if (set.classList.contains(`hero-text-set-${currentSet + 1}`)) {
+                        set.classList.add('active');
+                    }
+                });
+            }
         }
 
-        setInterval(nextSlide, slideInterval);
+        // 초기 활성화
+        const initialTextSets = getTextSets();
+        initialTextSets.forEach((set, index) => {
+            if (index === currentSet) {
+                set.classList.add('active');
+            } else {
+                set.classList.remove('active');
+            }
+        });
+        
+        setInterval(nextSet, slideInterval);
+        
+        // 화면 크기 변경 시 텍스트 세트 재선택
+        window.addEventListener('resize', () => {
+            const textSets = getTextSets();
+            // 모든 텍스트 세트 비활성화
+            document.querySelectorAll('.hero-text-set').forEach(set => {
+                set.classList.remove('active');
+            });
+            // 현재 세트만 활성화
+            textSets.forEach((set, index) => {
+                if (index === currentSet) {
+                    set.classList.add('active');
+                }
+            });
+        });
     }
 
     // Mobile Menu Logic
