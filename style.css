@@ -695,6 +695,43 @@ header {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* Book Grid (3x3) */
+.book-grid-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, auto);
+    gap: 2rem;
+    justify-items: center;
+    align-items: center;
+}
+
+.book-grid-item {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-grid-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.book-grid-item img:hover {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
 /* Contact Form */
 .contact-form {
     width: 100%;
@@ -1155,24 +1192,24 @@ footer {
 .reveal-left,
 .reveal-right,
 .reveal-zoom {
-    opacity: 0;
+    opacity: 1;
     transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .reveal-up {
-    transform: translateY(50px);
+    transform: translateY(0);
 }
 
 .reveal-left {
-    transform: translateX(-50px);
+    transform: translateX(0);
 }
 
 .reveal-right {
-    transform: translateX(50px);
+    transform: translateX(0);
 }
 
 .reveal-zoom {
-    transform: scale(0.9);
+    transform: scale(1);
 }
 
 .reveal-up.visible,
@@ -1471,6 +1508,15 @@ footer {
         padding: 4rem 1.5rem;
     }
 
+    main {
+        margin-top: calc(60px + 140px); /* 헤더 높이 + 모바일 퀵 메뉴 높이 */
+        padding-top: 2rem;
+    }
+
+    .content-section:first-child {
+        margin-top: 0;
+    }
+
     .container {
         flex-direction: column !important;
         gap: 2rem;
@@ -1523,6 +1569,27 @@ footer {
         width: 100%;
         max-width: 300px;
         height: auto;
+    }
+
+    /* Book Grid (Mobile - 3x3) */
+    .book-grid-container {
+        width: 100%;
+        padding: 0 1rem;
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, auto);
+        gap: 1rem;
+    }
+
+    .book-grid-item {
+        max-width: 100%;
+    }
+
+    .book-grid-item img {
+        width: 100%;
+        max-width: 100%;
     }
 
     .contact-form {
