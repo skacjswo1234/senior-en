@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const slides = document.querySelectorAll('.slide');
     let currentSet = 0;
-    const slideInterval = 3000; // 3 seconds
+    const slideInterval = 6000; // 6 seconds, slower hero rotation
 
     // 화면 크기에 따라 적절한 텍스트 세트 선택
     function getTextSets() {
