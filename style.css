@@ -254,6 +254,19 @@ header {
 
 /* PC용 텍스트는 모바일에서 숨김 */
 @media (max-width: 768px) {
+    /* 작업영어(세트3) 텍스트 더 작게 */
+    .hero-text-set-3.hero-text-mobile .hero-content h2 {
+        font-size: 0.5rem;
+        line-height: 1.1;
+    }
+
+    .hero-text-set-3.hero-text-mobile .hero-content .sub-text {
+        font-size: 0.38rem;
+    }
+
+    .hero-text-set-3.hero-text-mobile .hero-content .feature-list li {
+        font-size: 0.34rem;
+    }
     .hero-text-pc {
         display: none !important;
     }
