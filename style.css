@@ -1435,8 +1435,8 @@ footer {
         max-height: 60vh;
         z-index: 1;
         order: 2;
-        margin-top: 1rem;
-        padding: 0.5rem;
+        margin-top: 0.0rem;
+        padding: 0.0rem;
         box-sizing: border-box;
         background-color: #1a1f3a;
     }
