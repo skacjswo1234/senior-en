@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize slider position
     function initBookSlider() {
+        if (!bookSlider) return; // bookSlider가 null이면 함수 종료
         if (window.innerWidth <= 768) {
             currentBookSlide = 0;
             bookSlider.style.transform = `translateX(0)`;
@@ -111,16 +112,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize and start slider
-    initBookSlider();
-    
-    // Clear any existing interval before setting a new one
-    if (bookSliderInterval) {
-        clearInterval(bookSliderInterval);
+    if (bookSlider) {
+        initBookSlider();
+        
+        // Clear any existing interval before setting a new one
+        if (bookSliderInterval) {
+            clearInterval(bookSliderInterval);
+        }
+        bookSliderInterval = setInterval(nextBookSlide, bookInterval);
     }
-    bookSliderInterval = setInterval(nextBookSlide, bookInterval);
 
     // Reset slider on resize
     window.addEventListener('resize', () => {
+        if (!bookSlider) return; // bookSlider가 null이면 함수 종료
         if (window.innerWidth > 768) {
             bookSlider.style.transform = 'none';
             if (bookSliderInterval) {
