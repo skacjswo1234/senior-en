@@ -341,10 +341,11 @@ header {
     background-image: url('images/sectionimg/12.jpg');
 }
 
-/* PC 화면에서 3번째 슬라이드 이미지 전체 보이도록 */
+/* PC 화면에서 3번째 슬라이드 이미지 안 잘리고 다 보이면서 좌우 여백 없이 통으로 보이게 */
 @media (min-width: 769px) {
     .slide-3 {
-        background-size: contain;
+        background-image: url('images/sectionimg/12-1.jpg');
+        background-size: 100% auto;
         background-repeat: no-repeat;
         background-position: center center;
     }
@@ -650,6 +651,76 @@ header {
     flex: 1;
 }
 
+/* PC 화면에서 index.html 제외한 나머지 페이지: 텍스트 아래 이미지 세로 배치, 이미지 더 크게 */
+@media (min-width: 769px) {
+    .content-section .container:not(.column) {
+        flex-direction: column;
+        gap: 3rem;
+    }
+    
+    .content-section .text-content {
+        width: 100%;
+        text-align: center;
+    }
+    
+    /* 영어마니아 섹션 텍스트 더 크게, 중앙정렬 */
+    .section-7 .text-content {
+        text-align: center;
+    }
+    
+    .section-7 .text-content h2 {
+        font-size: 4rem;
+        text-align: center;
+    }
+    
+    .section-7 .feature-list {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .section-7 .feature-list li {
+        font-size: 1.5rem;
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .content-section .image-content {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .content-section .image-content img {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        display: block;
+    }
+    
+    .content-section .image-grid-2 {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        gap: 3rem;
+    }
+    
+    .content-section .image-grid-2 .grid-item img {
+        width: 100%;
+    }
+    
+    .content-section .zigzag-grid {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    .content-section .zigzag-row img {
+        width: 80%;
+        max-width: 900px;
+    }
+}
+
 /* Image Content Updates */
 .image-content img,
 .grid-item img {
@@ -680,6 +751,7 @@ header {
     /* Increased gap */
     width: 100%;
 }
+
 
 .grid-item.hover-lift img:hover {
     transform: translateY(-10px) scale(1.02);
