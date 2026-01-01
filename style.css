@@ -322,6 +322,14 @@ header {
     /* Slight zoom effect */
 }
 
+/* PC 버전에서 히어로 이미지 전체샷이 보이도록 */
+@media (min-width: 769px) {
+    .slide {
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+}
+
 .slide.active {
     opacity: 1;
     transform: scale(1);
@@ -341,13 +349,11 @@ header {
     background-image: url('images/sectionimg/12.jpg');
 }
 
-/* PC 화면에서 3번째 슬라이드 이미지 안 잘리고 다 보이면서 좌우 여백 없이 통으로 보이게 */
+/* PC 화면에서 3번째 슬라이드 이미지 파일 설정 */
 @media (min-width: 769px) {
     .slide-3 {
         background-image: url('images/sectionimg/12-1.jpg');
-        background-size: 100% auto;
-        background-repeat: no-repeat;
-        background-position: center center;
+        /* background-size는 상위 .slide의 contain 스타일 사용 */
     }
 }
 
@@ -411,6 +417,11 @@ header {
 }
 
 @media (min-width: 769px) {
+    .hero-content {
+        top: 60%;
+        transform: translate(-50%, -50%);
+    }
+    
     .hero-content h2 {
         font-size: 3rem;
     }
