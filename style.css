@@ -325,8 +325,9 @@ header {
 /* PC 버전에서 히어로 이미지 전체샷이 보이도록 */
 @media (min-width: 769px) {
     .slide {
-        background-size: contain;
+        background-size: cover;
         background-repeat: no-repeat;
+        background-position: center center;
     }
 }
 
@@ -417,31 +418,44 @@ header {
 }
 
 @media (min-width: 769px) {
+    /* PC 버전: 히어로 섹션 높이 조정 */
+    .hero {
+        height: 120vh;
+        min-height: 1000px;
+    }
+    
     /* PC 버전: 텍스트 섹션 상단 패딩 추가 (헤더에 가려지지 않도록) */
     .hero-text-section {
-        padding-top: 6rem;
+        padding-top: 4rem;
         padding-bottom: 3rem;
-        height: 50%;
-        min-height: 400px;
+        height: 30%;
+        min-height: 300px;
     }
     
     /* PC 버전: 이미지 섹션 높이 조정 및 시작 위치 조정 */
     .hero-image-section {
-        height: 50%;
+        height: 120%;
+        min-height: 700px;
         flex: 1;
-        margin-top: 5rem;
+        margin-top: 0;
+        padding: 0;
     }
     
     /* PC 버전: 히어로 슬라이더 시작 위치 조정 */
     .hero-slider {
         top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
     }
     
     /* PC 버전: 텍스트 위치 더 아래로 */
     .hero-content {
-        top: 75%;
+        top: 50%;
         transform: translate(-50%, -50%);
-        padding-top: 5rem;
+        padding-top: 4rem;
     }
     
     .hero-content h2 {
