@@ -300,6 +300,12 @@ header {
     overflow: hidden;
 }
 
+@media (min-width: 769px) {
+    .hero-image-section {
+        overflow: visible;
+    }
+}
+
 .hero-slider {
     position: absolute;
     top: 20%;
@@ -322,12 +328,55 @@ header {
     /* Slight zoom effect */
 }
 
-/* PC 버전에서 히어로 이미지 전체샷이 보이도록 */
+/* PC 버전에서 히어로 이미지를 카드 형태로 슬라이드쇼 */
 @media (min-width: 769px) {
-    .slide {
-        background-size: cover;
+    .hero-image-section .slide {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        width: calc(100% - 2rem);
+        height: calc(100% - 2rem);
+        min-height: 800px;
+        background-size: contain;
         background-repeat: no-repeat;
         background-position: center center;
+        opacity: 0;
+        transform: scale(0.95);
+        border-radius: 12px;
+        box-shadow: none;
+        transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+        background-color: transparent;
+        z-index: 1;
+    }
+    
+    .hero-image-section .slide.active {
+        opacity: 1;
+        transform: scale(1);
+        z-index: 2;
+    }
+    
+    .hero-image-section .slide:not(.active) {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    
+    /* 3번째 이미지가 잘리지 않도록 특별 처리 - 더 많은 여백 */
+    .hero-image-section .slide-3 {
+        background-size: contain !important;
+        background-position: center center;
+        padding: 3rem 2rem;
+        box-sizing: border-box;
+        width: calc(100% - 4rem);
+        height: calc(100% - 6rem);
+        top: 2rem;
+        left: 2rem;
+        min-height: 700px;
+    }
+    
+    /* 모든 슬라이드에 여백 추가하여 이미지가 잘리지 않게 */
+    .hero-image-section .slide {
+        padding: 2rem;
+        box-sizing: border-box;
     }
 }
 
@@ -353,7 +402,7 @@ header {
 /* PC 화면에서 3번째 슬라이드 이미지 파일 설정 */
 @media (min-width: 769px) {
     .slide-3 {
-        background-image: url('images/sectionimg/12-1.jpg');
+        background-image: url('images/sectionimg/12.jpg');
         /* background-size는 상위 .slide의 contain 스타일 사용 */
     }
 }
@@ -373,8 +422,7 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.5));
-    /* Dark gradient overlay */
+    
 }
 
 .hero-content {
@@ -422,33 +470,38 @@ header {
     .hero {
         height: 90vh;
         min-height: 700px;
+        margin-top: 2rem;
+        margin-bottom: 4rem;
     }
     
     /* PC 버전: 텍스트 섹션 상단 패딩 추가 (헤더에 가려지지 않도록) */
     .hero-text-section {
         padding-top: 4rem;
-        padding-bottom: 3rem;
-        height: 30%;
-        min-height: 300px;
+        padding-bottom: 1rem;
+        height: 25%;
+        min-height: 250px;
     }
     
     /* PC 버전: 이미지 섹션 높이 조정 및 시작 위치 조정 */
     .hero-image-section {
-        height: 80%;
-        min-height: 500px;
+        height: 100%;
+        min-height: 850px;
         flex: 1;
         margin-top: 0;
+        margin-bottom: 2rem;
         padding: 0;
+        overflow: visible;
     }
     
-    /* PC 버전: 히어로 슬라이더 시작 위치 조정 */
+    /* PC 버전: 히어로 슬라이더를 카드 섹션으로 변경 - 슬라이드쇼용 */
     .hero-slider {
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        padding: 0;
+        padding: 1rem;
         margin: 0;
+        position: relative;
     }
     
     /* PC 버전: 텍스트 위치 더 아래로 */
@@ -510,8 +563,48 @@ header {
 }
 
 @media (min-width: 769px) {
+    .hero-content .feature-list {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+    }
+    
     .hero-content .feature-list li {
         font-size: 1.2rem;
+        white-space: nowrap;
+        margin: 0;
+    }
+    
+    /* PC 버전: ul로 감싸지 않은 li 요소들도 가로로 나열 (세트2, 세트3) */
+    .hero-content.hero-text-pc > li {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-right: 1.5rem;
+        white-space: nowrap;
+        font-size: 1.2rem;
+        color: #e0e0e0;
+    }
+    
+    .hero-content.hero-text-pc {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-content.hero-text-pc > h2 {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* PC 버전: hero-text-pc 내의 모든 li를 가로로 나열 */
+    .hero-text-pc li {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 0.5rem;
+        margin-right: 1.5rem;
+        white-space: nowrap;
     }
 }
 
@@ -1114,6 +1207,30 @@ footer {
     color: rgba(255, 255, 255, 0.8);
     padding: 4rem 2rem;
     text-align: center;
+}
+
+@media (min-width: 769px) {
+    footer {
+        padding: 0.4rem 2rem;
+    }
+    
+    .footer-container {
+        gap: 0.15rem;
+    }
+    
+    .footer-info p {
+        margin: 0.02rem 0;
+        font-size: 0.75rem;
+    }
+    
+    .copyright {
+        margin-top: 0.1rem;
+        font-size: 0.7rem;
+    }
+    
+    .footer-links {
+        margin-bottom: 0.1rem;
+    }
 }
 
 @media (max-width: 768px) {
