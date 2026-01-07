@@ -420,8 +420,8 @@ header {
 @media (min-width: 769px) {
     /* PC 버전: 히어로 섹션 높이 조정 */
     .hero {
-        height: 120vh;
-        min-height: 1000px;
+        height: 90vh;
+        min-height: 700px;
     }
     
     /* PC 버전: 텍스트 섹션 상단 패딩 추가 (헤더에 가려지지 않도록) */
@@ -434,8 +434,8 @@ header {
     
     /* PC 버전: 이미지 섹션 높이 조정 및 시작 위치 조정 */
     .hero-image-section {
-        height: 120%;
-        min-height: 700px;
+        height: 80%;
+        min-height: 500px;
         flex: 1;
         margin-top: 0;
         padding: 0;
