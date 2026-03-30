@@ -45,3 +45,53 @@ export async function onRequestGet(context) {
   }
 }
 
+export async function onRequestDelete(context) {
+  const { request, env } = context;
+
+  try {
+    const url = new URL(request.url);
+    const id = url.searchParams.get('id');
+
+    if (!id) {
+      return new Response(JSON.stringify({
+        success: false,
+        message: '삭제할 문의 ID가 필요합니다.'
+      }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const result = await env['senior-en-db'].prepare(
+      'DELETE FROM inquiries WHERE id = ?'
+    ).bind(id).run();
+
+    if (!result.success || result.meta.changes === 0) {
+      return new Response(JSON.stringify({
+        success: false,
+        message: '삭제할 문의 내역을 찾을 수 없습니다.'
+      }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: '문의 내역이 삭제되었습니다.'
+    }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch (error) {
+    console.error('Error deleting inquiry:', error);
+    return new Response(JSON.stringify({
+      success: false,
+      message: '문의 내역을 삭제하는 중 오류가 발생했습니다.'
+    }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+

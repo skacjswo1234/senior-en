@@ -105,6 +105,19 @@
         .detail-btn:hover {
             background-color: #4a6ba8;
         }
+        .delete-btn {
+            padding: 0.5rem 1rem;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        .delete-btn:hover {
+            background-color: #c9302c;
+        }
         .detail-modal {
             display: none;
             position: fixed;
@@ -274,7 +287,7 @@
                     if (inquiries.length === 0) {
                         container.innerHTML = '<div class="no-data">신청 내역이 없습니다.</div>';
                     } else {
-                        let html = '<div class="inquiries-table"><table><thead><tr><th>번호</th><th>이름</th><th>전화번호</th><th>영어수준</th><th>제2외국어</th><th>연령대</th><th>지역</th><th>신청일</th><th>상세</th></tr></thead><tbody>';
+                        let html = '<div class="inquiries-table"><table><thead><tr><th>번호</th><th>이름</th><th>전화번호</th><th>영어수준</th><th>제2외국어</th><th>연령대</th><th>지역</th><th>신청일</th><th>상세</th><th>삭제</th></tr></thead><tbody>';
                         
                         inquiries.forEach(inquiry => {
                             const date = new Date(inquiry.created_at).toLocaleDateString('ko-KR', {
@@ -292,6 +305,7 @@
                                 <td>${inquiry.location || '-'}</td>
                                 <td>${date}</td>
                                 <td><button class="detail-btn" onclick="showDetail(${inquiry.id})">보기</button></td>
+                                <td><button class="delete-btn" onclick="deleteInquiry(${inquiry.id})">삭제</button></td>
                             </tr>`;
                         });
                         
@@ -363,6 +377,31 @@
             } catch (error) {
                 console.error('Error loading detail:', error);
                 alert('상세 정보를 불러오는 중 오류가 발생했습니다.');
+            }
+        }
+
+        // 문의 삭제
+        async function deleteInquiry(id) {
+            const confirmed = confirm('정말로 이 신청 내역을 삭제하시겠습니까?');
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/inquiries?id=${id}`, {
+                    method: 'DELETE'
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || '삭제에 실패했습니다.');
+                }
+
+                alert('삭제되었습니다.');
+                await loadInquiries();
+            } catch (error) {
+                console.error('Error deleting inquiry:', error);
+                alert(error.message || '삭제 중 오류가 발생했습니다.');
             }
         }
 
