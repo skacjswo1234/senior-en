@@ -70,13 +70,14 @@ header {
 
 .desktop-nav ul {
     display: flex;
-    gap: 2.5rem;
+    gap: 2rem;
 }
 
 .desktop-nav a {
-    font-size: 1.05rem;
-    font-weight: 500;
-    color: #b0b0b0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #e0e0e0;
+    white-space: nowrap;
     position: relative;
     padding-bottom: 5px;
     transition: color 0.3s ease;
@@ -99,6 +100,16 @@ header {
 
 .desktop-nav a:hover::after {
     width: 100%;
+}
+
+@media (min-width: 769px) and (max-width: 1150px) {
+    .desktop-nav ul {
+        gap: 1.1rem;
+    }
+
+    .desktop-nav a {
+        font-size: 1.05rem;
+    }
 }
 
 /* Mobile Menu Styles */
@@ -188,8 +199,8 @@ header {
 }
 
 .mobile-nav a {
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-size: 1.45rem;
+    font-weight: 700;
     display: block;
     padding: 0.5rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1584,7 +1595,7 @@ footer {
         grid-template-columns: repeat(3, 1fr) !important;
         grid-template-rows: repeat(3, auto) !important;
         gap: 0.15rem;
-        padding: 0.15rem 1rem 0.25rem 1rem;
+        padding: 0.15rem 0.6rem 0.25rem 0.6rem;
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
@@ -1598,18 +1609,19 @@ footer {
         display: flex !important;
         align-items: center;
         justify-content: center;
-        padding: 0.25rem 0.2rem;
+        padding: 0.25rem 0.1rem;
         background-color: rgba(107, 143, 212, 0.2);
-        color: #e0e0e0;
+        color: #ffffff;
         text-decoration: none;
         border-radius: 10px;
-        font-size: 0.75rem;
-        font-weight: 500;
+        font-size: 0.92rem;
+        font-weight: 700;
+        letter-spacing: -0.3px;
         text-align: center;
         transition: all 0.3s ease;
         border: 1px solid rgba(107, 143, 212, 0.3);
         word-break: keep-all;
-        min-height: 28px;
+        min-height: 34px;
         width: 100%;
         box-sizing: border-box;
         visibility: visible !important;
@@ -1705,22 +1717,24 @@ footer {
         width: 100%;
         height: auto;
         min-height: auto;
-        z-index: 999;
+        z-index: 2;
         background: rgba(26, 31, 58, 0.9);
-        display: flex;
+        display: grid;
         align-items: center;
-        justify-content: center;
-        padding: 125px 1rem 0.5rem;
+        justify-items: center;
+        padding: 1.25rem 0 1rem;
         order: 1;
         margin-bottom: 0;
-        margin-top: 1.5rem;
+        margin-top: 0;
     }
 
+    /* 슬라이드 문구를 같은 칸에 겹쳐 두어, 가장 긴 문구 높이만큼 영역이 늘어나도록 함 */
     .hero-text-set {
-        position: absolute;
-        top: 52%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: relative;
+        grid-area: 1 / 1;
+        top: auto;
+        left: auto;
+        transform: none;
         width: 100%;
         max-width: 100%;
         height: auto;
@@ -1856,7 +1870,7 @@ footer {
     }
 
     main {
-        margin-top: calc(60px + 78px); /* 헤더 높이 + 모바일 퀵 메뉴 높이 (살짝 커진 높이) */
+        margin-top: calc(60px + 124px); /* 헤더 높이 + 모바일 퀵 메뉴 높이 (3줄, 큰 글씨) */
         padding-top: 0;
     }
 

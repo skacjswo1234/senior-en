@@ -1,4 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 예전 '홈' 링크(index.html#hero)로 들어오면 고정 메뉴 높이만큼 아래로 스크롤되므로 맨 위에서 시작
+    if (location.hash === '#hero') {
+        history.replaceState(null, '', location.pathname + location.search);
+        window.scrollTo(0, 0);
+        window.addEventListener('load', () => window.scrollTo(0, 0));
+    }
+
+    // 모바일 퀵 메뉴 높이는 기기 글꼴 크기 설정에 따라 달라지므로 실제 높이로 본문 위치를 맞춤
+    const quickMenuEl = document.querySelector('.mobile-quick-menu');
+    const mainEl = document.querySelector('main');
+    function syncMainOffset() {
+        if (!quickMenuEl || !mainEl) return;
+        if (window.innerWidth <= 768) {
+            mainEl.style.marginTop = Math.ceil(quickMenuEl.getBoundingClientRect().bottom) + 'px';
+        } else {
+            mainEl.style.marginTop = '';
+        }
+    }
+    syncMainOffset();
+    window.addEventListener('resize', syncMainOffset);
+    window.addEventListener('load', syncMainOffset);
+    if (quickMenuEl && 'ResizeObserver' in window) {
+        new ResizeObserver(syncMainOffset).observe(quickMenuEl);
+    }
+
     const slides = document.querySelectorAll('.slide');
     let currentSet = 0;
     const slideInterval = 6000; // 6 seconds, slower hero rotation

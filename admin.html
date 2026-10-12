@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 페이지 - 조선시니어학당</title>
+    <link rel="icon" href="/favicon.ico" sizes="48x48">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <style>
         * {
             margin: 0;
@@ -55,12 +58,16 @@
             width: 100%;
             background-color: #252b4d;
             border-radius: 10px;
-            overflow: hidden;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         table {
             width: 100%;
             border-collapse: collapse;
+        }
+        td.date-cell {
+            white-space: nowrap;
         }
         thead {
             background-color: #1a1f3a;
@@ -264,6 +271,24 @@
     </div>
 
     <script>
+        // D1의 CURRENT_TIMESTAMP는 'YYYY-MM-DD HH:MM:SS' 형식의 UTC 문자열이라 사파리에서 파싱되지 않음
+        function parseDbDate(value) {
+            if (!value) return null;
+            const d = new Date(String(value).replace(' ', 'T') + 'Z');
+            return isNaN(d) ? null : d;
+        }
+
+        function formatDate(value, withTime) {
+            const d = parseDbDate(value);
+            if (!d) return '-';
+            const options = { timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit' };
+            if (withTime) {
+                options.hour = '2-digit';
+                options.minute = '2-digit';
+            }
+            return d.toLocaleString('ko-KR', options);
+        }
+
         // 문의 내역 로드
         async function loadInquiries() {
             const container = document.getElementById('inquiriesContainer');
@@ -277,33 +302,26 @@
                     
                     // 통계 업데이트
                     document.getElementById('totalCount').textContent = inquiries.length;
-                    const today = new Date().toISOString().split('T')[0];
-                    const todayInquiries = inquiries.filter(inq => {
-                        const inqDate = new Date(inq.created_at).toISOString().split('T')[0];
-                        return inqDate === today;
-                    });
+                    const today = formatDate(new Date().toISOString().replace('T', ' ').slice(0, 19));
+                    const todayInquiries = inquiries.filter(inq => formatDate(inq.created_at) === today);
                     document.getElementById('todayCount').textContent = todayInquiries.length;
                     
                     if (inquiries.length === 0) {
                         container.innerHTML = '<div class="no-data">신청 내역이 없습니다.</div>';
                     } else {
-                        let html = '<div class="inquiries-table"><table><thead><tr><th>번호</th><th>이름</th><th>전화번호</th><th>영어수준</th><th>제2외국어</th><th>연령대</th><th>지역</th><th>신청일</th><th>상세</th><th>삭제</th></tr></thead><tbody>';
+                        let html = '<div class="inquiries-table"><table><thead><tr><th>번호</th><th>신청일시</th><th>이름</th><th>전화번호</th><th>영어수준</th><th>제2외국어</th><th>연령대</th><th>지역</th><th>상세</th><th>삭제</th></tr></thead><tbody>';
                         
                         inquiries.forEach(inquiry => {
-                            const date = new Date(inquiry.created_at).toLocaleDateString('ko-KR', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit'
-                            });
+                            const date = formatDate(inquiry.created_at, true);
                             html += `<tr>
                                 <td>${inquiry.id}</td>
+                                <td class="date-cell">${date}</td>
                                 <td>${inquiry.name}</td>
                                 <td>${inquiry.phone}</td>
                                 <td>${inquiry.english_level || '-'}</td>
                                 <td>${inquiry.second_lang || '-'}</td>
                                 <td>${inquiry.age || '-'}</td>
                                 <td>${inquiry.location || '-'}</td>
-                                <td>${date}</td>
                                 <td><button class="detail-btn" onclick="showDetail(${inquiry.id})">보기</button></td>
                                 <td><button class="delete-btn" onclick="deleteInquiry(${inquiry.id})">삭제</button></td>
                             </tr>`;
@@ -329,13 +347,7 @@
                 
                 if (data.success) {
                     const inquiry = data.data;
-                    const date = new Date(inquiry.created_at).toLocaleString('ko-KR', {
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
+                    const date = formatDate(inquiry.created_at, true);
                     
                     document.getElementById('detailContent').innerHTML = `
                         <div class="detail-item">
